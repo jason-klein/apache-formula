@@ -49,14 +49,16 @@
     {% if site.get('VirtualDocumentRoot') %}VirtualDocumentRoot {{ vals.VirtualDocumentRoot }}{% endif %}
 
     {% if site.get('SSLCertificateFile') %}
-    SSLEngine on
-    SSLCertificateFile {{ site.SSLCertificateFile }}
-    {%   if site.get('SSLCertificateKeyFile') %}
-    SSLCertificateKeyFile {{ site.SSLCertificateKeyFile }}
-    {%   endif %}
-    {%   if site.get('SSLCertificateChainFile') %}
-    SSLCertificateChainFile {{ site.SSLCertificateChainFile}}
-    {%   endif %}
+    <IfModule mod_ssl.c>
+        SSLEngine on
+        SSLCertificateFile {{ site.SSLCertificateFile }}
+        {%   if site.get('SSLCertificateKeyFile') %}
+        SSLCertificateKeyFile {{ site.SSLCertificateKeyFile }}
+        {%   endif %}
+        {%   if site.get('SSLCertificateChainFile') %}
+        SSLCertificateChainFile {{ site.SSLCertificateChainFile}}
+        {%   endif %}
+    </IfModule>
     {% endif %}
 
     {% for path, dir in site.get('Directory', {}).items() %}
